@@ -25,5 +25,5 @@ jobs:
       uses: actions/upload-artifact@v2
       if: ${{ success() }}
       with:
-        name: GitHubActionsTest.jar
+        name: GitHubActionsTest
         path: ./target/build/GitHubActionsTest.jar
