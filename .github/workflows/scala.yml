@@ -22,7 +22,8 @@ jobs:
       run: sbt assembly
 
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.0
+      uses: actions/upload-artifact@v2
+      if: ${{ success() }}
       with:
         name: GitHubActionsTest
-        path: ./target/scala-*/GitHubActionsTest-assembly-*.jar
+        path: ./target/build/GitHubActionsTest.jar
