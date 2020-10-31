@@ -17,5 +17,12 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+
     - name: Run assembly
       run: sbt assembly
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.0
+      with:
+        name: GitHubActionsTest-assembly-*.jar
+        path: ./target/scala-*/GitHubActionsTest-assembly-*.jar
