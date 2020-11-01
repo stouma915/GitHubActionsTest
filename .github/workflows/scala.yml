@@ -27,24 +27,3 @@ jobs:
       with:
         name: GitHubActionsTest
         path: ./target/build/GitHubActionsTest.jar
-        
-    - uses: actions/checkout@v2.1.0
-
-    - name: Create Release
-      uses: aaiezza/create-release@master
-      id: create_release
-      with:
-        release_branch: releases/0.0.1
-        tag: 0.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Upload Jar
-      uses: actions/upload-release-asset@v1.0.2
-      env:
-       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-       upload_url: ${{ steps.create_release.outputs.upload_url }}
-       asset_path: ./target/${{ needs.version.outputs.jar-name }}
-       asset_name: GitHubActionsTest.jar
-       asset_content_type: application/java-archive
