@@ -27,3 +27,12 @@ jobs:
       with:
         name: GitHubActionsTest
         path: ./target/build/GitHubActionsTest.jar
+    - name: SCP Deploy
+      uses: lBeJIuk/scp_action@v1
+      with:
+        public_key: ${{ secrets.PUBLIC_KEY }}
+        ssh_port: ${{ secrets.SSH_PORT }}
+        ssh_username: ${{ secrets.SSH_USERNAME }}
+        ssh_host: ${{ secrets.SSH_HOST }}
+        source: ./target/build/GitHubActionsTest.jar
+        target: ${{ secrets.SCP_TARGET }}
