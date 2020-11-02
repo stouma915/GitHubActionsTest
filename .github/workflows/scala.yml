@@ -27,12 +27,9 @@ jobs:
       with:
         name: GitHubActionsTest
         path: ./target/build/GitHubActionsTest.jar
-    - name: SCP Deploy
-      uses: lBeJIuk/scp_action@v1
-      with:
-        public_key: ${{ secrets.PUBLIC_KEY }}
-        ssh_port: ${{ secrets.SSH_PORT }}
-        ssh_username: ${{ secrets.SSH_USERNAME }}
-        ssh_host: ${{ secrets.SSH_HOST }}
-        source: ./target/build/GitHubActionsTest.jar
-        target: ${{ secrets.SCP_TARGET }}
+        
+    - name: Exports SSH private key
+      run: echo "${{ secrets.PRIVATE_KEY }}" > id_rsa && chmod 600 id_rsa
+  
+    - name: Scp deploy
+      run: scp -o 'StrictHostKeyChecking no' -P ${{ secrets.SSH_PORT }} -i id_rsa ./target/build/GitHubActionsTest.jar ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.SCP_TARGET }}
