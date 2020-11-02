@@ -28,8 +28,10 @@ jobs:
         name: GitHubActionsTest
         path: ./target/build/GitHubActionsTest.jar
         
-    - name: Exports SSH private key
-      run: echo "${{ secrets.PRIVATE_KEY }}" > id_rsa && chmod 600 id_rsa
+    - name: ssh key generate
+      run: echo "SSH_PRIVATE_KEY" id_rsa && chmod 600 id_rsa
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
   
     - name: Scp deploy
-      run: scp -o 'StrictHostKeyChecking no' -P ${{ secrets.SSH_PORT }} -i id_rsa ./target/build/GitHubActionsTest.jar ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.SCP_TARGET }}
+      run: scp -o 'StrictHostKeyChecking no' -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} -i id_rsa ./target/build/GitHubActionsTest.jar ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.SCP_TARGET }}
