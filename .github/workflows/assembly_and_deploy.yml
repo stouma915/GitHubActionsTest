@@ -1,4 +1,4 @@
-name: Scala CI
+name: Assembly and deploy
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       with:
         java-version: 15
 
-    - name: Run assembly
+    - name: Assembly
       run: sbt assembly
 
     - name: Upload a Build Artifact
@@ -28,7 +28,7 @@ jobs:
         name: GitHubActionsTest
         path: ./target/build/GitHubActionsTest.jar
         
-    - name: ssh key generate
+    - name: Exports SSH private key
       if: ${{ success() }}
       run: echo "$SSH_PRIVATE_KEY" > id_rsa && chmod 600 id_rsa
       env:
