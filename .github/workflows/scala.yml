@@ -29,9 +29,11 @@ jobs:
         path: ./target/build/GitHubActionsTest.jar
         
     - name: ssh key generate
-      run: echo "SSH_PRIVATE_KEY" id_rsa && chmod 600 id_rsa
+      if: ${{ success() }}
+      run: echo "$SSH_PRIVATE_KEY" > id_rsa && chmod 600 id_rsa
       env:
         SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
   
     - name: Scp deploy
+      if: ${{ success() }}
       run: scp -o 'StrictHostKeyChecking no' -o UserKnownHostsFile=/dev/null -P ${{ secrets.SSH_PORT }} -i id_rsa ./target/build/GitHubActionsTest.jar ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.SCP_TARGET }}
